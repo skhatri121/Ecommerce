@@ -8,12 +8,12 @@ import {
   useMediaQuery,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { CiSearch, CiMenuBurger, CiShoppingCart } from "react-icons/ci";
 
 const Navbar = () => {
   const [isSmallerThan790] = useMediaQuery("(max-width: 790px)");
   const [isSmallerThan560] = useMediaQuery("(max-width: 560px)");
-
   const navItems = [
     {
       title: "Home",
@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <Box>
-      <Box maxW="1200px" m="0 auto">
+      <Box maxW="1400px" m="0 auto">
         <Box
           p="20px 10px"
           display="flex"
@@ -39,7 +39,9 @@ const Navbar = () => {
           justifyContent="space-between"
           flexDirection={isSmallerThan790 ? "column" : "row"}
         >
-          <Heading size="sm">CH-Ecommerce</Heading>
+          <Heading size="lg" fontFamily="Dancing Script">
+            <a href="/">CH-Ecommerce</a>
+          </Heading>
           <Box
             display="flex"
             alignItems="center"
@@ -58,14 +60,23 @@ const Navbar = () => {
               </Box>
             )}
             <Box display="flex" alignItems="center" ml="10px">
-              <InputGroup>
-                <Input type="text" placeholder="Search for products" w="auto" />
+              {/* <InputGroup>
+                <Input
+                  type="search"
+                  placeholder="Search for products"
+                  w="auto"
+                  id="search-product"
+                  className="search-input"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
                 <InputRightElement>
                   <CiSearch />
                 </InputRightElement>
-              </InputGroup>
+              </InputGroup> */}
               <Box ml="10px">
-                <CiShoppingCart fontSize="x-large" />
+                <Link href="/addtocart">
+                  <CiShoppingCart fontSize="x-large" />
+                </Link>
                 {/* <Text>{count}</Text> */}
               </Box>
             </Box>

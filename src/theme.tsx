@@ -11,6 +11,7 @@ const theme = extendTheme({
       header: "#000000",
       htext: "#ffffff",
       mainbg: "#808080",
+      price: "#FFE104",
     },
   },
 });
