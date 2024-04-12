@@ -10,14 +10,22 @@ import {
   CardFooter,
   ButtonGroup,
   Button,
+  Link,
 } from "@chakra-ui/react";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
+import useCartStore from "../Store/useCartStore";
 const CommonLayout = ({ category }) => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
+
   useEffect(() => {
     fetch(`https://dummyjson.com/products/category/${category}`)
       .then((res) => {
@@ -71,7 +79,12 @@ const CommonLayout = ({ category }) => {
                       <Button variant="solid" colorScheme="blue">
                         Buy now
                       </Button>
-                      <Button variant="ghost" bg="green" color="primary.htext">
+                      <Button
+                        variant="ghost"
+                        bg="green"
+                        color="primary.htext"
+                        onClick={() => handleAddToCart(product)}
+                      >
                         Add to cart
                       </Button>
                     </ButtonGroup>
@@ -79,6 +92,11 @@ const CommonLayout = ({ category }) => {
                 </Card>
               ))}
             </SimpleGrid>
+            <Box pt="10px">
+              <Link href="/">
+                <Button>Back to Product List</Button>
+              </Link>
+            </Box>
           </Box>
         </Box>
       </Box>

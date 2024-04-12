@@ -7,13 +7,16 @@ import {
   InputRightElement,
   useMediaQuery,
   Text,
+  Avatar,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { CiSearch, CiMenuBurger, CiShoppingCart } from "react-icons/ci";
-
+import useCartStore from "../Store/useCartStore";
 const Navbar = () => {
   const [isSmallerThan790] = useMediaQuery("(max-width: 790px)");
   const [isSmallerThan560] = useMediaQuery("(max-width: 560px)");
+  const cartItems = useCartStore((state) => state.cartItems);
+
   const navItems = [
     {
       title: "Home",
@@ -74,8 +77,12 @@ const Navbar = () => {
                 </InputRightElement>
               </InputGroup> */}
               <Box ml="10px">
-                <Link href="/addtocart">
+                <Link href="/addtocart" display="flex">
                   <CiShoppingCart fontSize="x-large" />
+
+                  <Box ml="5px" fontSize="sm" color="red">
+                    {cartItems.length}
+                  </Box>
                 </Link>
                 {/* <Text>{count}</Text> */}
               </Box>

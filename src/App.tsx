@@ -22,6 +22,9 @@ import Motorcycle from "./Pages/Motorcycle";
 import Lighting from "./Pages/Lighting";
 import Product from "./Pages/Product";
 import AddtoCart from "./Pages/AddtoCart";
+import Aboutus from "./Pages/Aboutus";
+import Contactus from "./Pages/Contactus";
+import PaymentSuccessful from "./Pages/PaymentSuccessful";
 
 function App() {
   return (
@@ -50,6 +53,9 @@ function App() {
         <Route path="/products/lighting" element={<Lighting />} />
         <Route path="/products/:productId" element={<Product />} />
         <Route path="/addtocart" element={<AddtoCart />} />
+        <Route path="/about" element={<Aboutus />} />
+        <Route path="/contact" element={<Contactus />} />
+        <Route path="/paymentsuccessful" element={<PaymentSuccessful />} />
       </Routes>
     </>
   );

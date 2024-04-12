@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import CategoryFilter from "./CategoryFilter";
 import SortFilter from "./SortFilter";
 import SearchFilter from "./SearchFilter";
+import useCartStore from "../Store/useCartStore";
 
 const CartSort = () => {
   const [categories, setCategories] = useState([]);
@@ -24,6 +25,11 @@ const CartSort = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const [isSmallerThan420] = useMediaQuery("(max-width: 420px)");
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
 
   useEffect(() => {
     fetch("https://dummyjson.com/products/categories")
@@ -137,7 +143,12 @@ const CartSort = () => {
                       <Button variant="solid" colorScheme="blue">
                         Buy now
                       </Button>
-                      <Button variant="ghost" bg="green" color="primary.htext">
+                      <Button
+                        variant="ghost"
+                        bg="green"
+                        color="primary.htext"
+                        onClick={() => handleAddToCart(product)}
+                      >
                         Add to cart
                       </Button>
                     </ButtonGroup>

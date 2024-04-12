@@ -13,6 +13,7 @@ import Navbar from "../Components/Navbar";
 import { create } from "zustand";
 import Footer from "../Components/Footer";
 import { Rating } from "react-simple-star-rating";
+import useCartStore from "../Store/useCartStore";
 
 const useStore = create((set) => ({
   count: 1,
@@ -28,18 +29,24 @@ const Product = () => {
   const [isSmallerThan680] = useMediaQuery("(max-width: 680px)");
   const [rating, setRating] = useState(0);
 
-  const tooltipArray = [
-    "Terrible",
-    "Terrible+",
-    "Bad",
-    "Bad+",
-    "Average",
-    "Average+",
-    "Great",
-    "Great+",
-    "Awesome",
-    "Awesome+",
-  ];
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
+
+  // const tooltipArray = [
+  //   "Terrible",
+  //   "Terrible+",
+  //   "Bad",
+  //   "Bad+",
+  //   "Average",
+  //   "Average+",
+  //   "Great",
+  //   "Great+",
+  //   "Awesome",
+  //   "Awesome+",
+  // ];
 
   useEffect(() => {
     fetch(`https://dummyjson.com/products/${productId}`)
@@ -59,10 +66,6 @@ const Product = () => {
     setRating(rate);
   };
 
-  // const onPointerEnter = () => console.log("Enter");
-  // const onPointerLeave = () => console.log("Leave");
-  // const onPointerMove = (value: number, index: number) =>
-  //   console.log(value, index);
   const discountAmount = (product) => {
     return (product.price * product.discountPercentage) / 100;
   };
@@ -116,21 +119,17 @@ const Product = () => {
                     +
                   </Button>
                 </Box>
-                {/* <Box>
-                  <Rating
-                    onClick={handleRating}
-                    size={30}
-                    transition
-                    allowFraction
-                    showTooltip
-                    tooltipArray={tooltipArray}
-                  />
-                  {product.rating}
-                </Box> */}
 
                 <Box pt="15px" display="flex" gap="15px">
                   <Button>Buy Now</Button>
-                  <Button>Add to Cart</Button>
+                  <Button
+                    variant="ghost"
+                    bg="green"
+                    color="primary.htext"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to cart
+                  </Button>{" "}
                 </Box>
               </Box>
             </Box>
