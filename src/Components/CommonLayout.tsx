@@ -44,7 +44,13 @@ const CommonLayout = ({ category }) => {
     <>
       <Header />
       <Navbar />
-      <Box bg="primary.mainbg" color="primary.htext">
+      <Box
+        bg="primary.mainbg"
+        color="primary.htext"
+        minH="100vh"
+        display="grid"
+        gridTemplateRows="1fr auto"
+      >
         <Box maxW="1200px" m="0 auto" px="10px" py="30px">
           <Text as="u" textTransform="capitalize" fontSize="20px">
             {category}
@@ -60,6 +66,7 @@ const CommonLayout = ({ category }) => {
                       w="100%"
                       cursor="pointer"
                       onClick={() => navigate(`/products/${product.id}`)}
+                      objectFit="cover"
                     />
                     <Box
                       p="10px"
@@ -76,7 +83,11 @@ const CommonLayout = ({ category }) => {
 
                   <CardFooter p="0px 5px 10px 10px ">
                     <ButtonGroup spacing="2" pt="0px" mt="0px" size="sm">
-                      <Button variant="solid" colorScheme="blue">
+                      <Button
+                        variant="solid"
+                        colorScheme="blue"
+                        onClick={() => navigate("/paymentsuccessful")}
+                      >
                         Buy now
                       </Button>
                       <Button

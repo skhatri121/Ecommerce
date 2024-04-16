@@ -1,12 +1,9 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
-  CardFooter,
   Divider,
-  Heading,
   Link,
   Text,
 } from "@chakra-ui/react";
@@ -20,7 +17,12 @@ const PaymentSuccessful = () => {
     <>
       <Header />
       <Navbar />
-      <Box bg="primary.mainbg">
+      <Box
+        bg="primary.mainbg"
+        minH="100vh"
+        display="grid"
+        gridTemplateRows="1fr auto"
+      >
         <Box maxW="1200px" m="0 auto" color="primary.htext" textAlign="center">
           <Box display="flex" justifyContent="center" p="50px">
             <Card maxW="sm">

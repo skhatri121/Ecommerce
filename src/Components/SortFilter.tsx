@@ -10,7 +10,7 @@ const SortFilter = ({ sortHighestPrice, sortLowestPrice }) => {
         cursor="pointer"
         color="primary.header"
         rightIcon={<BiChevronDown color="primary.htext" />}
-        w="125px"
+        w="195px"
       >
         Sort By
       </MenuButton>

@@ -1,17 +1,8 @@
-import {
-  Heading,
-  Box,
-  Link,
-  Input,
-  InputGroup,
-  InputRightElement,
-  useMediaQuery,
-  Text,
-  Avatar,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { CiSearch, CiMenuBurger, CiShoppingCart } from "react-icons/ci";
+import { Heading, Box, Link, useMediaQuery } from "@chakra-ui/react";
+
+import { CiMenuBurger, CiShoppingCart } from "react-icons/ci";
 import useCartStore from "../Store/useCartStore";
+import HamburgerMenu from "./HamburgerMenu";
 const Navbar = () => {
   const [isSmallerThan790] = useMediaQuery("(max-width: 790px)");
   const [isSmallerThan560] = useMediaQuery("(max-width: 560px)");
@@ -48,11 +39,13 @@ const Navbar = () => {
           <Box
             display="flex"
             alignItems="center"
-            justifyContent="space-between"
             pt={isSmallerThan790 ? "10px" : "0px"}
+            w={isSmallerThan790 ? "-webkit-fill-available" : "auto"}
+            justifyContent="space-between"
+            px={isSmallerThan790 ? "10px" : "auto"}
           >
             {isSmallerThan560 ? (
-              <CiMenuBurger />
+              <HamburgerMenu />
             ) : (
               <Box display="flex" justifyContent="center">
                 {navItems.map((item, index) => (
@@ -63,19 +56,6 @@ const Navbar = () => {
               </Box>
             )}
             <Box display="flex" alignItems="center" ml="10px">
-              {/* <InputGroup>
-                <Input
-                  type="search"
-                  placeholder="Search for products"
-                  w="auto"
-                  id="search-product"
-                  className="search-input"
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <InputRightElement>
-                  <CiSearch />
-                </InputRightElement>
-              </InputGroup> */}
               <Box ml="10px">
                 <Link href="/addtocart" display="flex">
                   <CiShoppingCart fontSize="x-large" />
@@ -84,7 +64,6 @@ const Navbar = () => {
                     {cartItems.length}
                   </Box>
                 </Link>
-                {/* <Text>{count}</Text> */}
               </Box>
             </Box>
           </Box>

@@ -1,4 +1,4 @@
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { CiSearch } from "react-icons/ci";
 
 const SearchFilter = ({ searchQuery, handleSearchInputChange }) => {
@@ -14,10 +14,11 @@ const SearchFilter = ({ searchQuery, handleSearchInputChange }) => {
         value={searchQuery}
         onChange={handleSearchInputChange}
         color="primary.htext"
+        width="195px"
       />
-      <InputRightElement>
+      <InputLeftElement>
         <CiSearch color="primary.htext" />
-      </InputRightElement>
+      </InputLeftElement>
     </InputGroup>
   );
 };

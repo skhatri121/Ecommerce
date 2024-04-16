@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Divider,
@@ -12,23 +13,33 @@ import {
   Button,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryFilter from "./CategoryFilter";
 import SortFilter from "./SortFilter";
 import SearchFilter from "./SearchFilter";
 import useCartStore from "../Store/useCartStore";
-
+import ReactPaginate from "react-paginate";
+import "../pagination.css";
 const CartSort = () => {
+  const productperPage = 15;
+  const [currentPage, setCurrentPage] = useState(0);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const [isSmallerThan420] = useMediaQuery("(max-width: 420px)");
+  const [isSmallerThan1100] = useMediaQuery("(max-width: 1100px)");
+  // const [isSmallerThan961] = useMediaQuery("(max-width: 961px)");
+
   const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = (product) => {
     addToCart(product);
+  };
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
   };
 
   useEffect(() => {
@@ -49,6 +60,7 @@ const CartSort = () => {
       .then((data) => {
         const fetchedProducts = data.products;
         setProducts(fetchedProducts);
+        setFilteredProducts(fetchedProducts);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
@@ -58,32 +70,41 @@ const CartSort = () => {
   };
 
   const sortHighestPrice = () => {
-    const sortedProducts = [...products].sort(
+    const sortedProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(a.price) - parseFloat(b.price)
     );
-    setProducts(sortedProducts);
+    setFilteredProducts(sortedProducts);
   };
 
   const sortLowestPrice = () => {
-    const sortedProducts = [...products].sort(
+    const sortedProducts = [...filteredProducts].sort(
       (a, b) => parseFloat(b.price) - parseFloat(a.price)
     );
-    setProducts(sortedProducts);
+    setFilteredProducts(sortedProducts);
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredAndSlicedProducts = filteredProducts
+    .filter((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .slice(currentPage * productperPage, (currentPage + 1) * productperPage);
+
+  const pageCount = Math.ceil(filteredProducts.length / productperPage);
 
   return (
-    <Box bg="primary.mainbg">
+    <Box
+      bg="primary.mainbg"
+      minHeight="100vh"
+      display="grid"
+      gridTemplateRows="1fr auto"
+    >
       <Box
         maxW="1400px"
         m="0 auto"
         display="flex"
         p="40px 5px 30px 0px"
         gap="10px"
-        flexDirection={isSmallerThan420 ? "column" : "row"}
+        flexDirection={isSmallerThan1100 ? "column" : "row"}
       >
         <Box px="20px" h="fit-content">
           <CategoryFilter categories={categories} />
@@ -106,8 +127,8 @@ const CartSort = () => {
             Product List
           </Text>
           <SimpleGrid columns={[1, 2, 3, 4]} spacing="15px">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
+            {filteredAndSlicedProducts.length > 0 ? (
+              filteredAndSlicedProducts.map((product) => (
                 <Card key={product.id} maxW="sm">
                   <CardBody p="0px" key={product.id} cursor="pointer">
                     <Image
@@ -115,6 +136,7 @@ const CartSort = () => {
                       h="200px"
                       w="100%"
                       cursor="pointer"
+                      objectFit="cover"
                       onClick={() => navigate(`/products/${product.id}`)}
                     />
                     <Box
@@ -140,7 +162,11 @@ const CartSort = () => {
                       display="flex"
                       rowGap="5px"
                     >
-                      <Button variant="solid" colorScheme="blue">
+                      <Button
+                        variant="solid"
+                        colorScheme="blue"
+                        onClick={() => navigate("/paymentsuccessful")}
+                      >
                         Buy now
                       </Button>
                       <Button
@@ -161,6 +187,19 @@ const CartSort = () => {
               </Box>
             )}
           </SimpleGrid>
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+          />
         </Box>
       </Box>
     </Box>

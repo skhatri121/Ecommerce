@@ -10,7 +10,7 @@ const CategoryFilter = ({ categories }) => {
         cursor="pointer"
         color="primary.header"
         rightIcon={<BiChevronDown />}
-        w="125px"
+        w="195px"
       >
         Categories
       </MenuButton>
